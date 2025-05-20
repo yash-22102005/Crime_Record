@@ -23,16 +23,16 @@ import { StatsData, ChartData } from "../client/src/types";
 
 export interface IStorage {
   // User operations
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
+  getUser(id: string): Promise<User | undefined>;
   getUsers(): Promise<User[]>;
   createUser(user: InsertUser): Promise<User>;
-  updateUser(id: number, user: Partial<InsertUser>): Promise<User>;
-  deleteUser(id: number): Promise<void>;
+  updateUser(id: string, user: Partial<InsertUser>): Promise<User>;
+  deleteUser(id: string): Promise<void>;
+  upsertUser(userData: UpsertUser): Promise<User>;
 
   // Profile operations
   getProfile(id: number): Promise<Profile | undefined>;
-  getProfileByUserId(userId: number): Promise<Profile | undefined>;
+  getProfileByUserId(userId: string): Promise<Profile | undefined>;
   createProfile(profile: InsertProfile): Promise<Profile>;
   updateProfile(id: number, profile: Partial<InsertProfile>): Promise<Profile>;
   upsertProfile(profile: InsertProfile): Promise<Profile>;
@@ -778,4 +778,7 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+import { DatabaseStorage } from "./DatabaseStorage";
+
+// Use database storage for production
+export const storage = new DatabaseStorage();

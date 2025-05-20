@@ -226,3 +226,13 @@ export type CrimeType = typeof crimeTypes.$inferSelect;
 export type FirDetail = typeof firDetails.$inferSelect;
 export type Crime = typeof crimes.$inferSelect;
 export type Activity = typeof activities.$inferSelect;
+
+// For Replit Auth
+export type UpsertUser = {
+  id: string;
+  email?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  profileImageUrl?: string | null;
+  role?: string;
+};

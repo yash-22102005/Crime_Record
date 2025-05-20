@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 import { 
   insertUserSchema, 
   insertProfileSchema, 
@@ -14,6 +15,21 @@ import {
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Set up Replit authentication
+  await setupAuth(app);
+
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
   // API routes
   
   // Users
@@ -29,7 +45,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/users/:id", async (req, res) => {
     try {
-      const user = await storage.getUser(parseInt(req.params.id));
+      const user = await storage.getUser(req.params.id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }

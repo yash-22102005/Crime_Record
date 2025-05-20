@@ -68,13 +68,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Profile
-  app.get("/api/profile", async (req, res) => {
+  app.get("/api/profile", isAuthenticated, async (req: any, res) => {
     try {
-      // In a real app, this would use req.user.id from auth middleware
-      const userId = req.query.userId as string;
-      if (!userId) {
-        return res.status(400).json({ message: "User ID is required" });
-      }
+      const userId = req.user.claims.sub;
       
       const profile = await storage.getProfileByUserId(userId);
       res.json(profile || { userId, email: "", phoneNumber: "", address: "" });
@@ -84,9 +80,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/profile", async (req, res) => {
+  app.patch("/api/profile", isAuthenticated, async (req: any, res) => {
     try {
-      const profileData = insertProfileSchema.parse(req.body);
+      const userId = req.user.claims.sub;
+      const profileData = {
+        ...insertProfileSchema.parse(req.body),
+        userId
+      };
       const profile = await storage.upsertProfile(profileData);
       res.json(profile);
     } catch (error) {

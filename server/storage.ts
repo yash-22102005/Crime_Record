@@ -21,6 +21,9 @@ import {
 import { generateId } from "../client/src/lib/utils";
 import { StatsData, ChartData } from "../client/src/types";
 
+// Import the UpsertUser type from DatabaseStorage
+import { UpsertUser } from './DatabaseStorage';
+
 export interface IStorage {
   // User operations
   getUser(id: string): Promise<User | undefined>;

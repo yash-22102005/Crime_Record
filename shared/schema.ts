@@ -34,7 +34,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
 // Profile Schema
 export const profiles = pgTable("profiles", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  userId: varchar("user_id").references(() => users.id).notNull(),
   address: text("address"),
   phoneNumber: text("phone_number"),
   email: text("email"),

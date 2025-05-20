@@ -76,8 +76,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "User ID is required" });
       }
       
-      const profile = await storage.getProfileByUserId(parseInt(userId));
-      res.json(profile || { userId: parseInt(userId), email: "", phoneNumber: "", address: "" });
+      const profile = await storage.getProfileByUserId(userId);
+      res.json(profile || { userId, email: "", phoneNumber: "", address: "" });
     } catch (error) {
       console.error("Error fetching profile:", error);
       res.status(500).json({ message: "Failed to fetch profile" });

@@ -324,9 +324,6 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getChartData(): Promise<ChartData> {
-    const criminals = await db.select().from(criminals);
-    const firs = await db.select().from(firDetails);
-
     // Simulate crime type distribution
     const crimeTypeLabels = ["Theft", "Assault", "Fraud", "Homicide", "Others"];
     const crimeTypeData = [35, 20, 15, 10, 20];
@@ -345,7 +342,7 @@ export class DatabaseStorage implements IStorage {
         labels: crimeTypeLabels,
         data: crimeTypeData,
       },
-      monthlyCrimeRate: {
+      monthlyCrimeTrends: {
         labels: monthLabels,
         data: monthlyData,
       },

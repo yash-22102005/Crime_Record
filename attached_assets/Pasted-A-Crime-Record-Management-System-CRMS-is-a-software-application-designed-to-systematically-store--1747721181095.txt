@@ -1,0 +1,104 @@
+A Crime Record Management System (CRMS) is a software application designed to systematically store, retrieve, analyze, and manage data related to criminal cases. Here are the typical requirements for developing such a system, categorized into functional and non-functional requirements:
+
+✅ Functional Requirements
+These define what the system should do.
+
+1. User Management
+User authentication (login/logout)
+
+Role-based access control (e.g., admin, officer, analyst)
+
+Add/Edit/Delete user profiles
+
+2. Crime Data Management
+Add new crime records (including case details, location, time, type, description)
+
+Edit and update existing records
+
+Delete/archive old or resolved cases
+
+3. Criminal Profile Management
+Register criminals with photo, fingerprint, biometrics, known aliases
+
+Maintain previous criminal records and status (active, incarcerated, released)
+
+4. Victim & Witness Management
+Record personal details of victims and witnesses
+
+Link them with associated cases
+
+5. Case Tracking and Status
+Assign cases to specific officers or departments
+
+Track case progress and updates
+
+Change status: Open, Under Investigation, Closed, Suspended
+
+6. Search and Filter Functionality
+Search crimes by type, date, area, status, involved persons
+
+Advanced filters (e.g., weapon used, modus operandi)
+
+7. Report Generation
+Generate printable reports: daily logs, crime summaries, trends
+
+Export to PDF/Excel
+
+8. Crime Analytics (Optional for advanced systems)
+Crime pattern analysis
+
+Heat map generation based on geographic data
+
+Predictive modeling using historical data
+
+9. Evidence Management
+Attach images, videos, audio, or scanned documents
+
+Track chain-of-custody for each piece of evidence
+
+10. Notification System
+Alerts for case updates or new assignments
+
+Email/SMS integration (optional)
+
+⚙️ Non-Functional Requirements
+These define how the system should behave.
+
+1. Performance
+Fast response time for searches and data entry
+
+Scalable to handle large datasets
+
+2. Security
+Data encryption (at rest and in transit)
+
+Audit trails for all user actions
+
+Secure authentication protocols
+
+3. Usability
+Intuitive and user-friendly UI for police/non-technical staff
+
+Mobile-responsive or app-based access (optional)
+
+4. Reliability
+Automatic backup system
+
+Minimal downtime with disaster recovery options
+
+5. Maintainability
+Modular architecture for easy updates and maintenance
+
+Well-documented code and database schema
+
+6. Interoperability
+Option to integrate with national ID systems, CCTV feeds, or other police databases
+
+📁 Example Data Fields
+Case ID, Crime Type, Date/Time, Location (lat/long), Description
+
+Officer Assigned, Status, Weapon Used
+
+Victim Info, Suspect Info, Arrest Info
+
+Evidence List, FIR Number, Court Details

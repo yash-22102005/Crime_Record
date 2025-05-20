@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupSeedRoutes } from "./routes/seed";
 import { 
   insertUserSchema, 
   insertProfileSchema, 
@@ -17,6 +18,9 @@ import {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up Replit authentication
   await setupAuth(app);
+  
+  // Set up database seeding routes
+  await setupSeedRoutes(app);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {

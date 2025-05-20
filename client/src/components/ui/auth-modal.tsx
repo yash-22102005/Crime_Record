@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useAuth } from "@/hooks/useAuth";
+import { Shield, LogIn } from "lucide-react";
 import { X } from "lucide-react";
 
 interface AuthModalProps {
@@ -13,49 +10,11 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const { login } = useAuth();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!username || !password) {
-      setError("Please enter both username and password");
-      return;
-    }
-
-    setError("");
+  const handleLoginWithReplit = () => {
     setIsLoading(true);
-
-    try {
-      await login({ username, password, rememberMe });
-      onClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to login");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Demo quick login buttons
-  const handleQuickLogin = (role: string) => {
-    const roleCredentials = {
-      admin: { username: "admin", password: "admin123" },
-      officer: { username: "officer", password: "officer123" },
-      user: { username: "user", password: "user123" },
-    }[role];
-
-    if (roleCredentials) {
-      setUsername(roleCredentials.username);
-      setPassword(roleCredentials.password);
-      login({ ...roleCredentials, role });
-      onClose();
-    }
+    window.location.href = "/api/login";
   };
 
   return (
@@ -71,75 +30,32 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <DialogDescription>Log in to access the Crime Record Management System</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Username</Label>
-            <Input
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your username"
-            />
+        <div className="py-6">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <Shield className="h-16 w-16 text-primary" />
+            <h3 className="text-xl font-semibold text-center">Crime Record Management System</h3>
+            <p className="text-center text-muted-foreground">
+              Manage crime records, track cases, and analyze crime data efficiently.
+            </p>
           </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-            />
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="remember" 
-                checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-              />
-              <Label htmlFor="remember" className="text-sm">Remember me</Label>
-            </div>
-            <Button variant="link" className="text-sm h-auto p-0">
-              Forgot password?
+
+          <div className="mt-8">
+            <Button 
+              onClick={handleLoginWithReplit} 
+              className="w-full flex items-center justify-center gap-2"
+              size="lg"
+              disabled={isLoading}
+            >
+              <LogIn className="h-5 w-5" />
+              {isLoading ? "Redirecting..." : "Sign in with Replit"}
             </Button>
           </div>
-          
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign in"}
-          </Button>
-        </form>
+        </div>
         
         <div className="border-t pt-4">
-          <div className="text-sm text-center space-y-2">
-            <p className="text-muted-foreground">Quick login for demonstration:</p>
-            <div className="flex justify-center space-x-4">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => handleQuickLogin("admin")}
-              >
-                Admin
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => handleQuickLogin("officer")}
-              >
-                Officer
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => handleQuickLogin("user")}
-              >
-                User
-              </Button>
-            </div>
+          <div className="text-xs text-center text-muted-foreground">
+            <p>By signing in, you agree to our terms of service and privacy policy.</p>
+            <p className="mt-1">This system is for authorized personnel only.</p>
           </div>
         </div>
       </DialogContent>

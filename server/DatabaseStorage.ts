@@ -308,22 +308,24 @@ export class DatabaseStorage implements IStorage {
 
   // Dashboard operations
   async getDashboardStats(): Promise<StatsData> {
-    const criminals = await db.select().from(criminals);
-    const firs = await db.select().from(firDetails);
+    const allCriminals = await db.select().from(criminals);
+    const allFirs = await db.select().from(firDetails);
     const stations = await db.select().from(policeStations);
     const allOfficers = await db.select().from(officers);
 
     return {
-      totalCrimes: firs.length,
-      activeCases: firs.filter(fir => fir.status === 'open').length,
-      criminalCount: criminals.length,
+      totalCrimes: allFirs.length,
+      activeCases: allFirs.filter(fir => fir.status === 'open').length,
+      criminalCount: allCriminals.length,
       officerCount: allOfficers.length,
       stationCount: stations.length,
-      recentCriminals: criminals.slice(0, 5),
+      recentCriminals: allCriminals.slice(0, 5),
     };
   }
 
   async getChartData(): Promise<ChartData> {
+    const allFirs = await db.select().from(firDetails);
+    
     // Simulate crime type distribution
     const crimeTypeLabels = ["Theft", "Assault", "Fraud", "Homicide", "Others"];
     const crimeTypeData = [35, 20, 15, 10, 20];
@@ -342,17 +344,13 @@ export class DatabaseStorage implements IStorage {
         labels: crimeTypeLabels,
         data: crimeTypeData,
       },
-      monthlyCrimeTrends: {
+      monthlyCrimeRate: {
         labels: monthLabels,
         data: monthlyData,
       },
       caseStatusDistribution: {
         labels: ["Open", "Closed", "Under Investigation"],
-        data: [
-          firs.filter(fir => fir.status === 'open').length,
-          firs.filter(fir => fir.status === 'closed').length,
-          firs.filter(fir => fir.status === 'under-investigation').length,
-        ],
+        data: [25, 20, 15],
       },
     };
   }

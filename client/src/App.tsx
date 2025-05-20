@@ -11,9 +11,20 @@ import Profile from "@/pages/Profile";
 import NotFound from "@/pages/not-found";
 import Layout from "@/components/layout/Layout";
 import { useAuth } from "@/hooks/useAuth";
+import { LoginForm } from "@/components/auth/LoginForm";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useAuth();
+
+  // Show login form if user is not authenticated
+  if (!isLoading && !isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
+        <LoginForm />
+        <Toaster />
+      </div>
+    );
+  }
 
   return (
     <TooltipProvider>

@@ -214,7 +214,7 @@ async function seedCrimeTypes() {
     'Non-violent financial crimes committed by professionals',
     'Structured illegal activities by criminal organizations',
     'Intentional or malicious setting of fire',
-    'Taking someone's personal information without permission',
+    'Taking someone\'s personal information without permission',
     'Transport of humans for exploitation',
     'Mistreatment of children',
     'Harassment and intimidation of a specific person',

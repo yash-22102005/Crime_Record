@@ -5,9 +5,10 @@ import { ActivityItem } from "@/components/dashboard/ActivityItem";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Activity, StatsData, ChartData } from "@/types";
-import { ClipboardList, AlertTriangle, UserSearch, FileText } from "lucide-react";
+import { ClipboardList, AlertTriangle, UserSearch, FileText, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation } from "wouter";
+import { DatabaseSeeder } from "@/components/ui/database-seeder";
 
 export default function Dashboard() {
   const { isAuthenticated } = useAuth();
@@ -43,11 +44,17 @@ export default function Dashboard() {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Dashboard</h2>
+        <div className="flex items-center gap-2">
+          <Shield className="h-7 w-7 text-primary" />
+          <h2 className="text-2xl font-bold text-gray-800">Crime Record Management System</h2>
+        </div>
         <p className="mt-1 text-sm text-gray-600">
-          Overview of crime records and system activity.
+          Comprehensive platform for managing crime records, police stations, and criminal profiles.
         </p>
       </div>
+      
+      {/* Database Seeder - Only visible to admins */}
+      {isAuthenticated && <DatabaseSeeder />}
 
       {/* Stats cards */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
